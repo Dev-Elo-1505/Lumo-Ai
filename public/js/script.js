@@ -1,4 +1,5 @@
 const button = document.querySelector('button');
+const socket = io();
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.lang = 'en-US';
@@ -11,4 +12,7 @@ button.addEventListener('click', () => {
 recognition.addEventListener('result', (e)=> {
     let last = e.results.length - 1;
     console.log(e.results);
+    let text = e.results[last][0].transcript;
+    console.log('Confidence: ' + e.results[0][0].confidence);
 });
+socket.emit('chat message', text);
